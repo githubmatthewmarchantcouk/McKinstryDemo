@@ -1,58 +1,61 @@
-
 html,
 nav {
   background-color: #FFFFFF;
 }
+
 body {
   font-family: 'comfortaa', sans-serif;
   background-color: #FFFFFF;
   text-align: right;
+  margin: 0;              /* ensure full-width layout */
+  padding: 0;
+  overflow-x: hidden;     /* prevent horizontal scroll */
 }
 
 * {
   margin: 0;
   padding: 0;
+  box-sizing: border-box; /* recommended for predictable sizing */
 }
 
 /* Nav bar */
-
- nav ul {
+nav ul {
   position: fixed;
+  top: 0;
+  left: 0;
   text-align: right;
   width: 100%;
   background-color: #FFFFFF;
   background: rgba(58,58,56,255);
-  font-family: "comfortaa",sans-serif; 
+  font-family: "comfortaa", sans-serif;
   font-size: 1.2em;
+  z-index: 1000; /* keep nav above image */
 }
 
 nav ul li {
   display: inline-block;
-  margin: 30px; 
+  margin: 30px;
 }
 
 nav ul li a {
   color: #FFFFFF;
   text-decoration: none;
 }
+
 nav ul li a:hover {
-  color: #FFFFF;
+  color: #FFFFFF; /* fixed typo (#FFFFF is invalid) */
 }
 
 /* about me */
-
 #welcome-section {
   top: 20;
   line-height: 1.6;
   background: #FFFFFF;
   min-height: 55vh;
   padding-top: 45vh;
-  text-align:
 }
-  
 
 /* Callback */
-
 #Callback {
   top: 5;
   width: 50%;
@@ -60,7 +63,6 @@ nav ul li a:hover {
   background: #F5F5F5;
   min-height: 55vh;
   padding-top: 10vh;
-  text-align: 
 }
 
 #VideoConf {
@@ -70,51 +72,49 @@ nav ul li a:hover {
   background: #F5F5F5;
   min-height: 100vh;
   padding-top: 10vh;
-  text-align: 
 }
 
 /* Co Browse */
-
 body.replica,
 body.replica.status-ready {
-    background-color: #EAEAEA;
+  background-color: #EAEAEA;
 }
 
 body.replica.status-primary-disconnected {
-    background-color: #f0ad4e;
+  background-color: #f0ad4e;
 }
 
 body.replica.status-disconnected {
-    background-color: #d9534f;
+  background-color: #d9534f;
 }
 
 body.replica .close {
-    border: 1px solid black;
-    color: black;
+  border: 1px solid black;
+  color: black;
 }
 
 body.replica .replica-title {
-    color: black;
+  color: black;
 }
 
 body.popup .window {
-    border: solid 3px #134C75;
+  border: solid 3px #134C75;
 }
 
 body.popup .window-header {
-    background-color: #e87415;
+  background-color: #e87415;
 }
-<style>
-  .full-width-image {
-    width: 100%;
-    height: auto;
-    display: block;      /* removes inline gaps */
-    margin: 0;
-  }
 
-  /* Optional: remove body default margins if present */
-  body {
-    margin: 0;
-  }
-</style>
+/* ✅ Full-width image (mainimage.PNG) */
+#welcome-section2 {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  padding-top: 90px; /* adjust if nav overlaps image */
+}
 
+.full-width-image {
+  width: 100%;
+  height: auto;       /* keeps full "depth" (no cropping) */
+  display: block;     /* removes inline gaps */
+}
