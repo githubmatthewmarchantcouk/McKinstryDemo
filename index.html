@@ -1,250 +1,313 @@
+```html
 <!DOCTYPE html>
-<html>
-	<head>
-		<title>Fello Travel _ 8x8 Demo</title>
-	<link rel="stylesheet" type="text/css" href="css/main.css">
-	<style>
-        body {
-            background-color: #FFFFFF;
-            color: white; /* Ensures text is readable */
-        }
-    	</style>
-	</head>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Fello Travel - 8x8 Demo</title>
 
+    <!-- External CSS -->
+    <link rel="stylesheet" type="text/css" href="css/main.css" />
 
+    <!-- Font (used by your popup styles) -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Page-specific overrides / additions -->
+    <style>
+      /* Ensure white background everywhere */
+      html,
+      body {
+        background-color: #ffffff;
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        overflow-x: hidden;
+      }
+
+      /* Image should start at the very top and fill width; height is natural -> scrolls if needed */
+      #welcome-section2 {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        background-color: #ffffff;
+      }
+
+      .full-width-image {
+        width: 100%;
+        height: auto;
+        display: block;
+      }
+
+      /* Popup button + form styles (kept from your HTML, but cleaned) */
+      body {
+        font-family: Archivo, sans-serif;
+        font-size: 1em;
+        color: #ffffff; /* only affects text you actually render on the page */
+      }
+
+      * {
+        box-sizing: border-box;
+        font-family: "Archivo", sans-serif;
+      }
+
+      .open-button {
+        background-color: #555;
+        color: white;
+        padding: 16px 20px;
+        border: none;
+        cursor: pointer;
+        opacity: 0.8;
+        position: fixed;
+        bottom: 23px;
+        right: 28px;
+        width: 245px;
+        border-radius: 10px;
+        z-index: 2000; /* above nav/image */
+      }
+
+      .form-popup {
+        display: none;
+        position: fixed;
+        bottom: 0;
+        right: 15px;
+        border: 3px solid #f1f1f1;
+        z-index: 2001; /* above button */
+        background-color: white;
+        color: #3a3a38;
+        border-radius: 15px;
+        padding: 15px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+      }
+
+      .form-container {
+        max-width: 300px;
+        padding: 10px;
+        background-color: white;
+        color: #3a3a38;
+        border-radius: 10px;
+      }
+
+      .form-container input[type="text"],
+      .form-container input[type="password"],
+      .form-container input[type="tel"] {
+        width: 100%;
+        padding: 15px;
+        margin: 5px 0 22px 0;
+        border: none;
+        background: #f1f1f1;
+        color: #3a3a38;
+        border-radius: 8px;
+      }
+
+      .form-container input[type="text"]:focus,
+      .form-container input[type="password"]:focus,
+      .form-container input[type="tel"]:focus {
+        background-color: #ddd;
+        outline: none;
+        color: #3a3a38;
+      }
+
+      .form-container .btn {
+        background-color: #04aa6d;
+        color: white;
+        padding: 16px 20px;
+        border: none;
+        cursor: pointer;
+        width: 100%;
+        margin-bottom: 10px;
+        opacity: 0.8;
+        border-radius: 8px;
+      }
+
+      .form-container .cancel {
+        background-color: #90bcb4;
+      }
+
+      .form-container .btn:hover,
+      .open-button:hover {
+        opacity: 1;
+      }
+
+      table,
+      td,
+      th {
+        color: #3a3a38;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- NAV (must be inside body) -->
     <nav>
       <ul id="navbar" style="list-style: none; text-align: right;">
-        <li><div id="__8x8-chat-button-container-script_8950202745c7e8852b20f41.87783975"></div></li>
-	<li style="float:left"><img src="toplhlogo.png"></a></li>
-			
+        <li>
+          <div id="__8x8-chat-button-container-script_8950202745c7e8852b20f41.87783975"></div>
+        </li>
+        <li style="float: left;">
+          <img src="toplhlogo.png" alt="Logo" />
+        </li>
       </ul>
     </nav>
-  
 
-<body>
+    <!-- Main Image (starts at top; natural height; scrolls if tall) -->
+    <div id="welcome-section2">
+      <img src="mainimage.PNG" class="full-width-image" alt="Main Image" />
+    </div>
 
-  <!-- This script will not interfere with the button layout, you just need to include it in the same page. It must also be within the <body> section of the page, preferably just before the ending tag. -->
+    <!-- 8x8 Chat loader (kept as-is) -->
     <script type="text/javascript">
-    (function(c, f, ef){
+      (function (c, f, ef) {
         var typeofC = Object.prototype.toString.call(c);
-        var props = (typeofC === '[object Object]' && c) || {};
-        var cb = f || (typeofC === '[object Function]' && c);
+        var props = (typeofC === "[object Object]" && c) || {};
+        var cb = f || (typeofC === "[object Function]" && c);
         var config = {
-            scriptUuid: "script_8950202745c7e8852b20f41.87783975",
-            tenant: "dWtzYWxlc2VuYWJsZW1lbnQ0NzgwMQ",
-            channelName: "Enablement Chat",
-            channelUuid: "-Raou-cORKa0NfKTuzbMtQ",
-            domain: "https://vcc-eu5.8x8.com",
-            buttonContainerId: "__8x8-chat-button-container-script_8950202745c7e8852b20f41.87783975",
-            align: "right",
+          scriptUuid: "script_8950202745c7e8852b20f41.87783975",
+          tenant: "dWtzYWxlc2VuYWJsZW1lbnQ0NzgwMQ",
+          channelName: "Enablement Chat",
+          channelUuid: "-Raou-cORKa0NfKTuzbMtQ",
+          domain: "https://vcc-eu5.8x8.com",
+          buttonContainerId:
+            "__8x8-chat-button-container-script_8950202745c7e8852b20f41.87783975",
+          align: "right",
         };
 
-        var url = new URL("https://cloud8-cc-geo.8x8.com/vcc-chat-channels/public/webchat/discovery");
-        var params = { domain: config.domain, tenant: config.tenant, channelUuid: config.channelUuid };
+        var url = new URL(
+          "https://cloud8-cc-geo.8x8.com/vcc-chat-channels/public/webchat/discovery"
+        );
+        var params = {
+          domain: config.domain,
+          tenant: config.tenant,
+          channelUuid: config.channelUuid,
+        };
         url.search = new URLSearchParams(params).toString();
         fetch(url)
-            .then(response => response.json())
-            .then(data => config.domain = !data.domain ? config.domain : data.domain)
-            .catch(error => console.warn('Failed to retrieve override domain, will continue using ', config.domain, error))
-            .finally(() => loadChat());
+          .then((response) => response.json())
+          .then((data) => (config.domain = !data.domain ? config.domain : data.domain))
+          .catch((error) =>
+            console.warn(
+              "Failed to retrieve override domain, will continue using ",
+              config.domain,
+              error
+            )
+          )
+          .finally(() => loadChat());
 
         function loadChat() {
-            var se = document.createElement("script");
-            se.type = "text/javascript";
-            se.async = true;
-            se.src = props.loaderURL || (config.domain + "/CHAT/common/js/chatv3.js");
-            Object.keys(config).forEach(function (k) { se.dataset[k] = config[k] });
-            Object.keys(props).forEach(function (k) { se.dataset[k] = props[k] });
-            function handleInitEvent(e) {
-                var initFn = e.detail.init;
-                initFn(config, cb);
-                se.removeEventListener('init', handleInitEvent)
-            }
-            function handleErrorEvent(e) {
-                ef && ef(e);
-                se.removeEventListener('customerror', handleErrorEvent);
-            }
-            se.addEventListener('init', handleInitEvent);
-            se.addEventListener('customerror', handleErrorEvent);
-            var os = document.getElementsByTagName("script")[0];
-            os.parentNode.insertBefore(se, os);
+          var se = document.createElement("script");
+          se.type = "text/javascript";
+          se.async = true;
+          se.src = props.loaderURL || config.domain + "/CHAT/common/js/chatv3.js";
+          Object.keys(config).forEach(function (k) {
+            se.dataset[k] = config[k];
+          });
+          Object.keys(props).forEach(function (k) {
+            se.dataset[k] = props[k];
+          });
+          function handleInitEvent(e) {
+            var initFn = e.detail.init;
+            initFn(config, cb);
+            se.removeEventListener("init", handleInitEvent);
+          }
+          function handleErrorEvent(e) {
+            ef && ef(e);
+            se.removeEventListener("customerror", handleErrorEvent);
+          }
+          se.addEventListener("init", handleInitEvent);
+          se.addEventListener("customerror", handleErrorEvent);
+          var os = document.getElementsByTagName("script")[0];
+          os.parentNode.insertBefore(se, os);
         }
-    })();
+      })();
     </script>
-	
-   
 
-<div id="welcome-section2" >
-      
-<div id="welcome-section2" style="margin-top: 0; padding-top: 0;">
-  <img src="mainimage.PNG" class="full-width-image" alt="Main Image">
-</div>
-
-    <h1></h1>
-    <p></p>
-  </div>
-	
-
-<head>	
-<!-- for pop up button -->
-
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;700&display=swap" rel="stylesheet">
-
-<style>
-body {
-  font-family: Archivo, sans-serif;
-  font-size: 1em;
-  color: #FFFFFF;
-}
-* {
-  box-sizing: border-box;
-  color: #FFFFFF;
-font-family: 'Archivo', sans-serif;
-}
-
-/* Button used to open the contact form - fixed at the bottom of the page */
-.open-button {
-  background-color: #555;
-  color: white;
-  padding: 16px 20px;
-  border: none;
-  cursor: pointer;
-  opacity: 0.8;
-  position: fixed;
-  bottom: 23px;
-  right: 28px;
-  width: 245px;
-  border-radius: 10px; /* Rounded edges */
-}
-
-/* The popup form - hidden by default */
-.form-popup {
-  display: none;
-  position: fixed;
-  bottom: 0;
-  right: 15px;
-  border: 3px solid #f1f1f1;
-  z-index: 9;
-  background-color: white;
-  color: #3a3a38;
-  border-radius: 15px; /* Rounded edges for popup */
-  padding: 15px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* Subtle shadow for effect */
-}
-
-/* Add styles to the form container */
-.form-container {
-  max-width: 300px;
-  padding: 10px;
-  background-color: white;
-  color: #3a3a38;
-  border-radius: 10px; /* Rounded edges for form container */
-}
-
-/* Full-width input fields */
-.form-container input[type=text], 
-.form-container input[type=password] {
-  width: 100%;
-  padding: 15px;
-  margin: 5px 0 22px 0;
-  border: none;
-  background: #f1f1f1;
-  color: #3a3a38;
-  border-radius: 8px; /* Rounded input fields */
-}
-
-/* When the inputs get focus, do something */
-.form-container input[type=text]:focus, 
-.form-container input[type=password]:focus {
-  background-color: #ddd;
-  outline: none;
-  color: #3a3a38;
-}
-
-/* Set a style for the submit/login button */
-.form-container .btn {
-  background-color: #04AA6D;
-  color: white;
-  padding: 16px 20px;
-  border: none;
-  cursor: pointer;
-  width: 100%;
-  margin-bottom:10px;
-  opacity: 0.8;
-  border-radius: 8px; /* Rounded buttons */
-}
-
-/* Add a red background color to the cancel button */
-.form-container .cancel {
-  background-color: #90bcb4;
-}
-
-/* Add some hover effects to buttons */
-.form-container .btn:hover, .open-button:hover {
-  opacity: 1;
-}
-
-/* Table text color */
-table, td, th {
-  color: #3a3a38;
-}
-</style>
-</head>
-
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-    setTimeout(function () {
-        if (!window.coBrowsingInstance) {
+    <!-- cobrowse debug check (kept) -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        setTimeout(function () {
+          if (!window.coBrowsingInstance) {
             console.error("coBrowsingInstance not initialized");
-        }
-    }, 2000);
-});
-</script>	
+          }
+        }, 2000);
+      });
+    </script>
 
-<button class="open-button" onclick="openForm()">Request a Callback</button>
+    <!-- Callback popup -->
+    <button class="open-button" onclick="openForm()">Request a Callback</button>
 
-<div class="form-popup" id="myForm">
-  <form name="WebCallBack" action="https://vcc-eu5.8x8.com/SC/webcallback.php" method="get"  
-        oninput="extTransactionData.value = '[Name|' + fname.value +' '+ lname.value + '][Location|' + location.value + '][Reason|' + reason.value +']'">
-    <input type="hidden" name="extTransactionData"/>
-    <input type="hidden" name="tenant" value="uksalesenablement47801"/>
-    <input type="hidden" name="token" value="6417c61d2e76696a46841e53a00368a6441978972cdf471ac2d39307e14df09e"/>
-    <input type="hidden" name="channel_number" value="442039845210"/>
-    <input type="hidden" name="callback_type" value="1"/>
-    <input type="hidden" name="queue_id" value="107"/>
-    <input type="hidden" name="expiration" value="1200"/><br/>
-    <table style="background-color:#FFFFFF;">
-      <tr><td>First name:</td><td> <input type="text" name="fname"/></td></tr>
-      <tr><td>Last name:</td><td><input type="text" name="lname" /></td></tr>
-      <tr><td>Location:</td><td><input type="text" name="location" /></td></tr>
-      <tr><td>Reason:</td><td>
-        <select name="reason" style="border-radius: 8px; padding: 5px;">
-          <option value="Book Travel">Book Travel</option>
-          <option value="Change Plans">Change Plans</option>
-          <option value="Cancel Travel" selected>Cancel Travel</option>
-          <option value="Other">Other</option>
-        </select>
-      </td></tr>
-      <tr><td>Tel Number:</td><td><input type="tel" name="phone" class="anotherClass maskContent" /></td></tr>
-      <tr><td colspan="2" style="text-align:center"><input type="submit" value="Call Me" style="border-radius: 8px;"/></td></tr>
-    </table>
-  </form>
+    <div class="form-popup" id="myForm">
+      <form
+        name="WebCallBack"
+        action="https://vcc-eu5.8x8.com/SC/webcallback.php"
+        method="get"
+        oninput="extTransactionData.value = '[Name|' + fname.value +' '+ lname.value + '][Location|' + location.value + '][Reason|' + reason.value +']'"
+      >
+        <input type="hidden" name="extTransactionData" />
+        <input type="hidden" name="tenant" value="uksalesenablement47801" />
+        <input
+          type="hidden"
+          name="token"
+          value="6417c61d2e76696a46841e53a00368a6441978972cdf471ac2d39307e14df09e"
+        />
+        <input type="hidden" name="channel_number" value="442039845210" />
+        <input type="hidden" name="callback_type" value="1" />
+        <input type="hidden" name="queue_id" value="107" />
+        <input type="hidden" name="expiration" value="1200" /><br />
 
-  <form action="/action_page.php" class="form-container">
-    <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
-  </form>
-</div>
+        <table style="background-color: #ffffff;">
+          <tr>
+            <td>First name:</td>
+            <td><input type="text" name="fname" /></td>
+          </tr>
+          <tr>
+            <td>Last name:</td>
+            <td><input type="text" name="lname" /></td>
+          </tr>
+          <tr>
+            <td>Location:</td>
+            <td><input type="text" name="location" /></td>
+          </tr>
+          <tr>
+            <td>Reason:</td>
+            <td>
+              <select name="reason" style="border-radius: 8px; padding: 5px;">
+                <option value="Book Travel">Book Travel</option>
+                <option value="Change Plans">Change Plans</option>
+                <option value="Cancel Travel" selected>Cancel Travel</option>
+                <option value="Other">Other</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>Tel Number:</td>
+            <td>
+              <input type="tel" name="phone" class="anotherClass maskContent" />
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" style="text-align: center;">
+              <input type="submit" value="Call Me" style="border-radius: 8px;" />
+            </td>
+          </tr>
+        </table>
+      </form>
 
-<script>
-function openForm() {
-  document.getElementById("myForm").style.display = "block";
-}
+      <form action="/action_page.php" class="form-container">
+        <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+      </form>
+    </div>
 
-function closeForm() {
-  document.getElementById("myForm").style.display = "none";
-}
-</script>
-</body>
+    <script>
+      function openForm() {
+        document.getElementById("myForm").style.display = "block";
+      }
 
-	
+      function closeForm() {
+        document.getElementById("myForm").style.display = "none";
+      }
+    </script>
+  </body>
 </html>
+```
