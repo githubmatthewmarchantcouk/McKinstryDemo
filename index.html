@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>McKinstry Skips-8x8 Demo</title>
+    <title>McKinstry Skips - 8x8 Demo</title>
 
     <!-- External CSS -->
     <link rel="stylesheet" type="text/css" href="css/main.css" />
@@ -42,14 +42,14 @@
         top: 0;
         left: 0;
         width: 100%;
-        z-index: 2500; /* above chat + image */
+        z-index: 2500; /* bar sits above image */
         padding: 10px 14px;
         background: rgba(255, 255, 255, 0.9);
         border-bottom: 1px solid rgba(0, 0, 0, 0.08);
       }
 
       .top-links nav {
-        max-width: 1400px;          /* keeps it looking nice on ultra-wide screens */
+        max-width: 1400px;
         margin: 0 auto;
       }
 
@@ -58,10 +58,10 @@
         margin: 0;
         padding: 0;
         display: flex;
-        justify-content: space-evenly; /* spreads evenly across */
+        justify-content: space-evenly;
         align-items: center;
         gap: 14px;
-        flex-wrap: wrap; /* wraps nicely on smaller screens */
+        flex-wrap: wrap;
       }
 
       .top-links li {
@@ -72,7 +72,6 @@
         white-space: nowrap;
       }
 
-      /* make them look like links (optional) */
       .top-links a {
         color: #3a3a38;
         text-decoration: none;
@@ -84,6 +83,14 @@
         text-decoration: underline;
       }
 
+      /* --- CHANGE: chat container ON TOP of the top bar text --- */
+      #__8x8-chat-button-container-script_1493918123696e2dfbe10540.79726509 {
+        position: fixed;
+        top: 6px;      /* inside the bar */
+        right: 12px;
+        z-index: 3000; /* above the bar text */
+      }
+
       /* Single full-page image */
       #welcome-section2 {
         width: 100%;
@@ -92,7 +99,6 @@
         background-color: #ffffff;
       }
 
-      /* Wrap main image so we can overlay picMiddle.png */
       .image-wrap {
         position: relative;
         width: 100%;
@@ -105,24 +111,15 @@
         display: block;
       }
 
-      /* Overlay image centered on top of main image */
       .middle-overlay {
         position: absolute;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
         z-index: 1200;
-        max-width: 60%;   /* adjust as needed */
+        max-width: 60%;
         height: auto;
-        pointer-events: none; /* so it doesn't block clicks */
-      }
-
-      /* Chat button container sits below top links */
-      #__8x8-chat-button-container-script_1493918123696e2dfbe10540.79726509 {
-        position: fixed;
-        top: 64px; /* below the top-links bar */
-        right: 12px;
-        z-index: 2000;
+        pointer-events: none;
       }
 
       /* Popup button + form styles */
@@ -230,7 +227,7 @@
       </nav>
     </div>
 
-    <!-- Chat button container -->
+    <!-- Chat button container (NOW sits on top of the top bar text) -->
     <div
       id="__8x8-chat-button-container-script_1493918123696e2dfbe10540.79726509"
     ></div>
