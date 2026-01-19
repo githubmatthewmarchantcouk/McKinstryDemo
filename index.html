@@ -36,6 +36,28 @@
         font-family: "Archivo", sans-serif;
       }
 
+      /* ---------- TOP NAV TEXT BAR ---------- */
+      .top-links {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 2500; /* above chat + image */
+        padding: 10px 14px;
+        background: rgba(255, 255, 255, 0.9);
+        color: #3a3a38;
+        font-size: 14px;
+        line-height: 1.2;
+        white-space: nowrap;
+        overflow-x: auto; /* allows scrolling if it doesn't fit */
+        -webkit-overflow-scrolling: touch;
+      }
+
+      /* Optional: make it look link-like without being anchors */
+      .top-links span {
+        color: #3a3a38;
+      }
+
       /* Single full-page image */
       #welcome-section2 {
         width: 100%;
@@ -48,12 +70,13 @@
         width: 100%;
         height: auto;
         display: block;
+        margin-top: 44px; /* pushes image down so top bar doesn't cover it */
       }
 
-      /* Chat button container sits on top of the image */
+      /* Chat button container sits on top of the image, below top links */
       #__8x8-chat-button-container-script_1493918123696e2dfbe10540.79726509 {
-        position: fixed; /* stays visible while scrolling */
-        top: 12px;
+        position: fixed;
+        top: 52px; /* below the top-links bar */
         right: 12px;
         z-index: 2000;
       }
@@ -146,6 +169,14 @@
   </head>
 
   <body>
+    <!-- TOP TEXT ACROSS THE PAGE -->
+    <div class="top-links">
+      <span>
+        Home | About Us | MMR McKinstry Metal Recycling | Skip Hire | Waste
+        Services | Biomass | Contact Us | Certification | Waste Licences
+      </span>
+    </div>
+
     <!-- Chat button container (overlay on top of the single image) -->
     <div
       id="__8x8-chat-button-container-script_1493918123696e2dfbe10540.79726509"
