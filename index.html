@@ -1,10 +1,9 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>McKinstry Skips - 8x8 Demo</title>
+    <title>McKinstry Skips _ 8x8 Demo</title>
 
     <!-- External CSS -->
     <link rel="stylesheet" type="text/css" href="css/main.css" />
@@ -15,7 +14,6 @@
       rel="stylesheet"
     />
 
-    <!-- Page-specific overrides / additions -->
     <style>
       /* Ensure white background everywhere */
       html,
@@ -27,7 +25,51 @@
         overflow-x: hidden;
       }
 
-      /* Image should start at the very top and fill width; height is natural -> scrolls if needed */
+      body {
+        font-family: Archivo, sans-serif;
+        font-size: 1em;
+        color: #ffffff;
+      }
+
+      * {
+        box-sizing: border-box;
+        font-family: "Archivo", sans-serif;
+      }
+
+      /* ---------- NEW NAV OVERLAY LAYOUT ---------- */
+      nav {
+        position: relative;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        background: transparent;
+        z-index: 1000;
+      }
+
+      #navbar {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        position: relative;
+        width: 100%;
+      }
+
+      /* Full width logo */
+      #navbar .logo-wrap img {
+        width: 100%;
+        height: auto;
+        display: block;
+      }
+
+      /* Chat button container sits on top of the logo */
+      #__8x8-chat-button-container-script_1493918123696e2dfbe10540.79726509 {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        z-index: 2000;
+      }
+
+      /* Main Image */
       #welcome-section2 {
         width: 100%;
         margin: 0;
@@ -41,18 +83,7 @@
         display: block;
       }
 
-      /* Popup button + form styles (kept from your HTML, but cleaned) */
-      body {
-        font-family: Archivo, sans-serif;
-        font-size: 1em;
-        color: #ffffff; /* only affects text you actually render on the page */
-      }
-
-      * {
-        box-sizing: border-box;
-        font-family: "Archivo", sans-serif;
-      }
-
+      /* Popup button + form styles */
       .open-button {
         background-color: #555;
         color: white;
@@ -65,7 +96,7 @@
         right: 28px;
         width: 245px;
         border-radius: 10px;
-        z-index: 2000; /* above nav/image */
+        z-index: 2000;
       }
 
       .form-popup {
@@ -74,7 +105,7 @@
         bottom: 0;
         right: 15px;
         border: 3px solid #f1f1f1;
-        z-index: 2001; /* above button */
+        z-index: 2001;
         background-color: white;
         color: #3a3a38;
         border-radius: 15px;
@@ -140,73 +171,95 @@
   </head>
 
   <body>
-    <!-- NAV (must be inside body) -->
+    <!-- NAV -->
     <nav>
-      <ul id="navbar" style="list-style: none; text-align: right;">
-        <li>
-          <div id="__8x8-chat-button-container-script_1493918123696e2dfbe10540.79726509"></div>
-        </li>
-        <li style="float: left;">
+      <ul id="navbar">
+        <!-- Full width logo -->
+        <li class="logo-wrap">
           <img src="toplhlogo.png" alt="Logo" />
+        </li>
+
+        <!-- Chat button container (overlay) -->
+        <li>
+          <div
+            id="__8x8-chat-button-container-script_1493918123696e2dfbe10540.79726509"
+          ></div>
         </li>
       </ul>
     </nav>
 
-    <!-- Main Image (starts at top; natural height; scrolls if tall) -->
+    <!-- Main Image -->
     <div id="welcome-section2">
       <img src="pic10.PNG" class="full-width-image" alt="Main Image" />
     </div>
 
-    <!-- 8x8 Chat loader (kept as-is) -->
+    <!-- 8x8 Chat loader -->
     <script type="text/javascript">
-    (function(c, f, ef){
+      (function (c, f, ef) {
         var typeofC = Object.prototype.toString.call(c);
-        var props = (typeofC === '[object Object]' && c) || {};
-        var cb = f || (typeofC === '[object Function]' && c);
+        var props = (typeofC === "[object Object]" && c) || {};
+        var cb = f || (typeofC === "[object Function]" && c);
         var config = {
-            scriptUuid: "script_1493918123696e2dfbe10540.79726509",
-            tenant: "dWtzYWxlc2VuYWJsZW1lbnQ0NzgwMQ",
-            channelName: "McKinstryChat",
-            channelUuid: "QR-zynnnR3i3YVPYqOrmkA",
-            domain: "https://vcc-eu5.8x8.com",
-            buttonContainerId: "__8x8-chat-button-container-script_1493918123696e2dfbe10540.79726509",
-            align: "right",
+          scriptUuid: "script_1493918123696e2dfbe10540.79726509",
+          tenant: "dWtzYWxlc2VuYWJsZW1lbnQ0NzgwMQ",
+          channelName: "McKinstryChat",
+          channelUuid: "QR-zynnnR3i3YVPYqOrmkA",
+          domain: "https://vcc-eu5.8x8.com",
+          buttonContainerId:
+            "__8x8-chat-button-container-script_1493918123696e2dfbe10540.79726509",
+          align: "right",
         };
 
-        var url = new URL("https://cloud8-cc-geo.8x8.com/vcc-chat-channels/public/webchat/discovery");
-        var params = { domain: config.domain, tenant: config.tenant, channelUuid: config.channelUuid };
+        var url = new URL(
+          "https://cloud8-cc-geo.8x8.com/vcc-chat-channels/public/webchat/discovery"
+        );
+        var params = {
+          domain: config.domain,
+          tenant: config.tenant,
+          channelUuid: config.channelUuid,
+        };
         url.search = new URLSearchParams(params).toString();
         fetch(url)
-            .then(response => response.json())
-            .then(data => config.domain = !data.domain ? config.domain : data.domain)
-            .catch(error => console.warn('Failed to retrieve override domain, will continue using ', config.domain, error))
-            .finally(() => loadChat());
+          .then((response) => response.json())
+          .then((data) => (config.domain = !data.domain ? config.domain : data.domain))
+          .catch((error) =>
+            console.warn(
+              "Failed to retrieve override domain, will continue using ",
+              config.domain,
+              error
+            )
+          )
+          .finally(() => loadChat());
 
         function loadChat() {
-            var se = document.createElement("script");
-            se.type = "text/javascript";
-            se.async = true;
-            se.src = props.loaderURL || (config.domain + "/CHAT/common/js/chatv3.js");
-            Object.keys(config).forEach(function (k) { se.dataset[k] = config[k] });
-            Object.keys(props).forEach(function (k) { se.dataset[k] = props[k] });
-            function handleInitEvent(e) {
-                var initFn = e.detail.init;
-                initFn(config, cb);
-                se.removeEventListener('init', handleInitEvent)
-            }
-            function handleErrorEvent(e) {
-                ef && ef(e);
-                se.removeEventListener('customerror', handleErrorEvent);
-            }
-            se.addEventListener('init', handleInitEvent);
-            se.addEventListener('customerror', handleErrorEvent);
-            var os = document.getElementsByTagName("script")[0];
-            os.parentNode.insertBefore(se, os);
+          var se = document.createElement("script");
+          se.type = "text/javascript";
+          se.async = true;
+          se.src = props.loaderURL || config.domain + "/CHAT/common/js/chatv3.js";
+          Object.keys(config).forEach(function (k) {
+            se.dataset[k] = config[k];
+          });
+          Object.keys(props).forEach(function (k) {
+            se.dataset[k] = props[k];
+          });
+          function handleInitEvent(e) {
+            var initFn = e.detail.init;
+            initFn(config, cb);
+            se.removeEventListener("init", handleInitEvent);
+          }
+          function handleErrorEvent(e) {
+            ef && ef(e);
+            se.removeEventListener("customerror", handleErrorEvent);
+          }
+          se.addEventListener("init", handleInitEvent);
+          se.addEventListener("customerror", handleErrorEvent);
+          var os = document.getElementsByTagName("script")[0];
+          os.parentNode.insertBefore(se, os);
         }
-    })();
+      })();
     </script>
 
-    <!-- cobrowse debug check (kept) -->
+    <!-- cobrowse debug check -->
     <script>
       document.addEventListener("DOMContentLoaded", function () {
         setTimeout(function () {
@@ -293,4 +346,3 @@
     </script>
   </body>
 </html>
-```
