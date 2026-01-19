@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>McKinstry Skips _ 8x8 Demo</title>
+    <title>McKinstry Skips - 8x8 Demo</title>
 
     <!-- External CSS -->
     <link rel="stylesheet" type="text/css" href="css/main.css" />
@@ -36,40 +36,7 @@
         font-family: "Archivo", sans-serif;
       }
 
-      /* ---------- NEW NAV OVERLAY LAYOUT ---------- */
-      nav {
-        position: relative;
-        width: 100%;
-        margin: 0;
-        padding: 0;
-        background: transparent;
-        z-index: 1000;
-      }
-
-      #navbar {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-        position: relative;
-        width: 100%;
-      }
-
-      /* Full width logo */
-      #navbar .logo-wrap img {
-        width: 100%;
-        height: auto;
-        display: block;
-      }
-
-      /* Chat button container sits on top of the logo */
-      #__8x8-chat-button-container-script_1493918123696e2dfbe10540.79726509 {
-        position: absolute;
-        top: 12px;
-        right: 12px;
-        z-index: 2000;
-      }
-
-      /* Main Image */
+      /* Single full-page image */
       #welcome-section2 {
         width: 100%;
         margin: 0;
@@ -81,6 +48,14 @@
         width: 100%;
         height: auto;
         display: block;
+      }
+
+      /* Chat button container sits on top of the image */
+      #__8x8-chat-button-container-script_1493918123696e2dfbe10540.79726509 {
+        position: fixed; /* stays visible while scrolling */
+        top: 12px;
+        right: 12px;
+        z-index: 2000;
       }
 
       /* Popup button + form styles */
@@ -171,24 +146,12 @@
   </head>
 
   <body>
-    <!-- NAV -->
-    <nav>
-      <ul id="navbar">
-        <!-- Full width logo -->
-        <li class="logo-wrap">
-          <img src="toplhlogo.png" alt="Logo" />
-        </li>
+    <!-- Chat button container (overlay on top of the single image) -->
+    <div
+      id="__8x8-chat-button-container-script_1493918123696e2dfbe10540.79726509"
+    ></div>
 
-        <!-- Chat button container (overlay) -->
-        <li>
-          <div
-            id="__8x8-chat-button-container-script_1493918123696e2dfbe10540.79726509"
-          ></div>
-        </li>
-      </ul>
-    </nav>
-
-    <!-- Main Image -->
+    <!-- Single Image -->
     <div id="welcome-section2">
       <img src="pic10.PNG" class="full-width-image" alt="Main Image" />
     </div>
