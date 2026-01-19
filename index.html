@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>McKinstry Skips - 8x8 Demo</title>
+    <title>McKinstry Skips-8x8 Demo</title>
 
     <!-- External CSS -->
     <link rel="stylesheet" type="text/css" href="css/main.css" />
@@ -115,16 +115,7 @@
         pointer-events: none;
       }
 
-      /* ---------- CHAT "PEEK" / SLIDE-OUT TAB (RIGHT, MID-SCREEN) ---------- */
-      #__8x8-chat-button-container-script_1493918123696e2dfbe10540.79726509 {
-        position: fixed;
-        top: 50%;
-        right: 0;
-        transform: translateY(-50%) translateX(calc(100% - 26px)); /* hide all but a small tab */
-        z-index: 3000; /* above everything */
-        transition: transform 180ms ease-in-out;
-        will-change: transform;
-      }
+      /* ---------- CHAT SLIDE-OUT DRAWER (RIGHT, MID-SCREEN) ---------- */
 
       /* Invisible hover zone near right edge so it pops out when mouse goes near */
       .chat-hover-zone {
@@ -132,16 +123,40 @@
         top: 50%;
         right: 0;
         transform: translateY(-50%);
-        width: 60px;  /* "near it" distance */
-        height: 220px; /* adjust if you want bigger/smaller trigger area */
-        z-index: 2999; /* just below the chat container */
+        width: 60px; /* "near it" distance */
+        height: 260px; /* trigger area height */
+        z-index: 3999;
         background: transparent;
       }
 
-      /* Pop out when hovering near the right edge OR the chat itself */
-      .chat-hover-zone:hover
-        + #__8x8-chat-button-container-script_1493918123696e2dfbe10540.79726509,
-      #__8x8-chat-button-container-script_1493918123696e2dfbe10540.79726509:hover {
+      /* Drawer wrapper that actually controls the chat position */
+      .chat-drawer {
+        position: fixed;
+        top: 50%;
+        right: 0;
+        transform: translateY(-50%) translateX(260px); /* hidden (adjust if needed) */
+        z-index: 4000;
+        transition: transform 200ms ease-in-out;
+        will-change: transform;
+      }
+
+      /* Small visible tab so users know it's there */
+      .chat-drawer-tab {
+        position: absolute;
+        left: -26px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 26px;
+        height: 120px;
+        background: rgba(255, 255, 255, 0.9);
+        border: 1px solid rgba(0, 0, 0, 0.12);
+        border-right: none;
+        border-radius: 10px 0 0 10px;
+      }
+
+      /* Pop out when hovering near the right edge OR the drawer itself */
+      .chat-hover-zone:hover + .chat-drawer,
+      .chat-drawer:hover {
         transform: translateY(-50%) translateX(0);
       }
 
@@ -253,10 +268,15 @@
     <!-- Hover trigger zone (mouse near right edge) -->
     <div class="chat-hover-zone" aria-hidden="true"></div>
 
-    <!-- Chat button container (right side, halfway down, slides out on hover) -->
-    <div
-      id="__8x8-chat-button-container-script_1493918123696e2dfbe10540.79726509"
-    ></div>
+    <!-- Chat drawer wrapper (RIGHT, HALF WAY DOWN, SLIDES OUT ON HOVER) -->
+    <div class="chat-drawer" aria-label="Chat drawer">
+      <div class="chat-drawer-tab" aria-hidden="true"></div>
+
+      <!-- 8x8 Chat button container (the script will inject the widget here) -->
+      <div
+        id="__8x8-chat-button-container-script_1493918123696e2dfbe10540.79726509"
+      ></div>
+    </div>
 
     <!-- Single Image + middle overlay -->
     <div id="welcome-section2">
