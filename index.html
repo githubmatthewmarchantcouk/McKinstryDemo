@@ -42,7 +42,7 @@
         top: 0;
         left: 0;
         width: 100%;
-        z-index: 2500; /* bar sits above image */
+        z-index: 2500; /* above image */
         padding: 10px 14px;
         background: rgba(255, 255, 255, 0.9);
         border-bottom: 1px solid rgba(0, 0, 0, 0.08);
@@ -83,14 +83,6 @@
         text-decoration: underline;
       }
 
-      /* --- CHANGE: chat container ON TOP of the top bar text --- */
-      #__8x8-chat-button-container-script_1493918123696e2dfbe10540.79726509 {
-        position: fixed;
-        top: 6px;      /* inside the bar */
-        right: 12px;
-        z-index: 3000; /* above the bar text */
-      }
-
       /* Single full-page image */
       #welcome-section2 {
         width: 100%;
@@ -111,6 +103,7 @@
         display: block;
       }
 
+      /* Overlay image centered on top of main image */
       .middle-overlay {
         position: absolute;
         top: 50%;
@@ -120,6 +113,36 @@
         max-width: 60%;
         height: auto;
         pointer-events: none;
+      }
+
+      /* ---------- CHAT "PEEK" / SLIDE-OUT TAB (RIGHT, MID-SCREEN) ---------- */
+      #__8x8-chat-button-container-script_1493918123696e2dfbe10540.79726509 {
+        position: fixed;
+        top: 50%;
+        right: 0;
+        transform: translateY(-50%) translateX(calc(100% - 26px)); /* hide all but a small tab */
+        z-index: 3000; /* above everything */
+        transition: transform 180ms ease-in-out;
+        will-change: transform;
+      }
+
+      /* Invisible hover zone near right edge so it pops out when mouse goes near */
+      .chat-hover-zone {
+        position: fixed;
+        top: 50%;
+        right: 0;
+        transform: translateY(-50%);
+        width: 60px;  /* "near it" distance */
+        height: 220px; /* adjust if you want bigger/smaller trigger area */
+        z-index: 2999; /* just below the chat container */
+        background: transparent;
+      }
+
+      /* Pop out when hovering near the right edge OR the chat itself */
+      .chat-hover-zone:hover
+        + #__8x8-chat-button-container-script_1493918123696e2dfbe10540.79726509,
+      #__8x8-chat-button-container-script_1493918123696e2dfbe10540.79726509:hover {
+        transform: translateY(-50%) translateX(0);
       }
 
       /* Popup button + form styles */
@@ -227,7 +250,10 @@
       </nav>
     </div>
 
-    <!-- Chat button container (NOW sits on top of the top bar text) -->
+    <!-- Hover trigger zone (mouse near right edge) -->
+    <div class="chat-hover-zone" aria-hidden="true"></div>
+
+    <!-- Chat button container (right side, halfway down, slides out on hover) -->
     <div
       id="__8x8-chat-button-container-script_1493918123696e2dfbe10540.79726509"
     ></div>
