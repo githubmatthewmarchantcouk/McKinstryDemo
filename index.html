@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>McKinstry Skips-8x8 Demo</title>
+    <title>McKinstry Skips - 8x8 Demo</title>
 
     <!-- External CSS -->
     <link rel="stylesheet" type="text/css" href="css/main.css" />
@@ -232,10 +232,12 @@
         transform: translateY(-50%) translateX(0);
       }
 
-      /* Optional: keep the Cognigy widget constrained nicely inside the drawer */
+      /* Give Cognigy a real visible area inside the drawer */
       #cognigy-webchat-mount {
-        min-width: 320px;
-        min-height: 520px;
+        width: 360px;
+        height: 560px;
+        background: #ffffff;
+        overflow: hidden;
       }
 
       /* Popup button + form styles */
@@ -348,21 +350,23 @@
 
     <!-- Chat drawer wrapper (RIGHT, HALF WAY DOWN, SLIDES OUT ON HOVER) - 8x8 -->
     <div class="chat-drawer" aria-label="Chat drawer">
+      <!-- Tab is always visible -->
       <div class="chat-drawer-tab" aria-hidden="true"></div>
 
+      <!-- 8x8 Chat button container (the script will inject the widget here) -->
       <div
         id="__8x8-chat-button-container-script_1493918123696e2dfbe10540.79726509"
       ></div>
     </div>
 
-    <!-- Hover trigger zone (mouse near right edge) - Cognigy (underneath) -->
+    <!-- Hover trigger zone - Cognigy (underneath) -->
     <div class="chat-hover-zone-cognigy" aria-hidden="true"></div>
 
     <!-- Chat drawer wrapper - Cognigy (underneath) -->
     <div class="chat-drawer-cognigy" aria-label="Cognigy chat drawer">
       <div class="chat-drawer-tab-cognigy" aria-hidden="true"></div>
 
-      <!-- Cognigy will mount here -->
+      <!-- Cognigy will be moved/docked here -->
       <div id="cognigy-webchat-mount"></div>
     </div>
 
@@ -440,16 +444,53 @@
       })();
     </script>
 
-    <!-- Cognigy Webchat loader + init -->
+    <!-- Cognigy Webchat v3 loader + init -->
     <script src="https://github.com/Cognigy/Webchat/releases/latest/download/webchat.js"></script>
     <script>
-      initWebchat(
-        "https://endpoint-trial.cognigy.ai/da2d479125635d9fbe3dbd0d21c4a3dcf7b91d59344800b9b1dc3fe29d8bb533",
-        {
-          // This ensures it mounts inside your slide-out drawer
-          target: "#cognigy-webchat-mount",
-        }
-      );
+      document.addEventListener("DOMContentLoaded", function () {
+        // Standard Cognigy v3 init
+        initWebchat(
+          "https://endpoint-trial.cognigy.ai/da2d479125635d9fbe3dbd0d21c4a3dcf7b91d59344800b9b1dc3fe29d8bb533"
+        );
+
+        // Dock/move the injected Cognigy widget into our drawer
+        const mount = document.getElementById("cognigy-webchat-mount");
+
+        const tryDock = () => {
+          const possibleRoots = [
+            document.querySelector("#cognigy-webchat"),
+            document.querySelector('[data-cognigy-webchat-root="true"]'),
+            document.querySelector(".cognigy-webchat"),
+            document.querySelector("#webchat"),
+          ].filter(Boolean);
+
+          const root =
+            possibleRoots[0] ||
+            Array.from(document.querySelectorAll("div"))
+              .reverse()
+              .find((el) => {
+                const s = window.getComputedStyle(el);
+                return (
+                  s.position === "fixed" &&
+                  (el.id.toLowerCase().includes("webchat") ||
+                    el.className.toString().toLowerCase().includes("webchat") ||
+                    el.innerHTML.toLowerCase().includes("cognigy"))
+                );
+              });
+
+          if (root && mount && !mount.contains(root)) {
+            mount.appendChild(root);
+            return true;
+          }
+          return false;
+        };
+
+        let attempts = 0;
+        const iv = setInterval(() => {
+          attempts++;
+          if (tryDock() || attempts > 40) clearInterval(iv); // ~10s max
+        }, 250);
+      });
     </script>
 
     <!-- cobrowse debug check -->
