@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>McKinstry Skips-8x8 Demo</title>
+
+    <!-- External CSS -->
+    <link rel="stylesheet" type="text/css" href="css/main.css" />
+
+    <!-- Font (used by your popup styles) -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      /* Ensure white background everywhere */
+      html,
+      body {
+        background-color: #ffffff;
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        overflow-x: hidden;
+      }
+
+      body {
+        font-family: Archivo, sans-serif;
+        font-size: 1em;
+        color: #ffffff;
+      }
+
+      * {
+        box-sizing: border-box;
+        font-family: "Archivo", sans-serif;
+      }
+
+      /* ---------- TOP NAV TEXT BAR (CENTERED + EVEN SPACING) ---------- */
+      .top-links {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 2500; /* above image */
+        padding: 10px 14px;
+        background: rgba(255, 255, 255, 0.9);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+      }
+
+      .top-links nav {
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+
+      .top-links ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        gap: 14px;
+        flex-wrap: wrap;
+      }
+
+      .top-links li {
+        color: #3a3a38;
+        font-size: 14px;
+        line-height: 1.2;
+        text-align: center;
+        white-space: nowrap;
+      }
+
+      .top-links a {
+        color: #3a3a38;
+        text-decoration: none;
+        padding: 2px 6px;
+        border-radius: 6px;
+      }
+
+      .top-links a:hover {
+        text-decoration: underline;
+      }
+
+      /* Single full-page image */
+      #welcome-section2 {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        background-color: #ffffff;
+      }
+
+      .image-wrap {
+        position: relative;
+        width: 100%;
+        margin-top: 58px; /* pushes content down so top bar doesn't cover it */
+      }
+
+      .full-width-image {
+        width: 100%;
+        height: auto;
+        display: block;
+      }
+
+      /* Overlay image centered on top of main image */
+      .middle-overlay {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 1200;
+        max-width: 60%;
+        height: auto;
+        pointer-events: none;
+      }
+
+      /* ---------- CHAT SLIDE-OUT DRAWER (RIGHT, MID-SCREEN) ---------- */
+
+      /* Invisible hover zone near right edge so it pops out when mouse goes near */
+      .chat-hover-zone {
+        position: fixed;
+        top: 50%;
+        right: 0;
+        transform: translateY(-50%);
+        width: 60px; /* "near it" distance */
+        height: 260px; /* trigger area height */
+        z-index: 3999;
+        background: transparent;
+      }
+
+      /* Drawer wrapper that actually controls the chat position
+         CHANGED: now hides "all but the tab", so the tab is ALWAYS visible */
+      .chat-drawer {
+        position: fixed;
+        top: 50%;
+        right: 0;
+        z-index: 4000;
+        transition: transform 200ms ease-in-out;
+        will-change: transform;
+
+        /* Tab width is 26px, so keep that visible at all times */
+        transform: translateY(-50%) translateX(calc(100% - 26px));
+      }
+
+      /* Small visible tab so users know it's there */
+      .chat-drawer-tab {
+        position: absolute;
+        left: 0; /* sits at the visible edge */
+        top: 50%;
+        transform: translateY(-50%);
+        width: 26px;
+        height: 120px;
+        background: rgba(255, 255, 255, 0.95);
+        border: 1px solid rgba(0, 0, 0, 0.12);
+        border-right: none;
+        border-radius: 10px 0 0 10px;
+        z-index: 1;
+      }
+
+      /* Optional: add a little hint line on the tab */
+      .chat-drawer-tab::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 9px;
+        transform: translateY(-50%);
+        width: 6px;
+        height: 44px;
+        border-radius: 999px;
+        background: rgba(0, 0, 0, 0.18);
+      }
+
+      /* Pop out when hovering near the right edge OR the drawer itself */
+      .chat-hover-zone:hover + .chat-drawer,
+      .chat-drawer:hover {
+        transform: translateY(-50%) translateX(0);
+      }
+
+      /* ---------- SECOND CHAT DRAWER (COGNIGY) UNDERNEATH ---------- */
+
+      .chat-hover-zone-cognigy {
+        position: fixed;
+        top: calc(50% + 170px); /* lower than the first hover zone */
+        right: 0;
+        transform: translateY(-50%);
+        width: 60px;
+        height: 260px;
+        z-index: 3998; /* just under the first one */
+        background: transparent;
+      }
+
+      .chat-drawer-cognigy {
+        position: fixed;
+        top: calc(50% + 170px); /* lower than the first drawer */
+        right: 0;
+        z-index: 3999;
+        transition: transform 200ms ease-in-out;
+        will-change: transform;
+
+        transform: translateY(-50%) translateX(calc(100% - 26px));
+      }
+
+      .chat-drawer-tab-cognigy {
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 26px;
+        height: 120px;
+        background: rgba(255, 255, 255, 0.95);
+        border: 1px solid rgba(0, 0, 0, 0.12);
+        border-right: none;
+        border-radius: 10px 0 0 10px;
+        z-index: 1;
+      }
+
+      .chat-drawer-tab-cognigy::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 9px;
+        transform: translateY(-50%);
+        width: 6px;
+        height: 44px;
+        border-radius: 999px;
+        background: rgba(0, 0, 0, 0.18);
+      }
+
+      .chat-hover-zone-cognigy:hover + .chat-drawer-cognigy,
+      .chat-drawer-cognigy:hover {
+        transform: translateY(-50%) translateX(0);
+      }
+
+      /* Optional: keep the Cognigy widget constrained nicely inside the drawer */
+      #cognigy-webchat-mount {
+        min-width: 320px;
+        min-height: 520px;
+      }
+
+      /* Popup button + form styles */
+      .open-button {
+        background-color: #555;
+        color: white;
+        padding: 16px 20px;
+        border: none;
+        cursor: pointer;
+        opacity: 0.8;
+        position: fixed;
+        bottom: 23px;
+        right: 28px;
+        width: 245px;
+        border-radius: 10px;
+        z-index: 2000;
+      }
+
+      .form-popup {
+        display: none;
+        position: fixed;
+        bottom: 0;
+        right: 15px;
+        border: 3px solid #f1f1f1;
+        z-index: 2001;
+        background-color: white;
+        color: #3a3a38;
+        border-radius: 15px;
+        padding: 15px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+      }
+
+      .form-container {
+        max-width: 300px;
+        padding: 10px;
+        background-color: white;
+        color: #3a3a38;
+        border-radius: 10px;
+      }
+
+      .form-container input[type="text"],
+      .form-container input[type="password"],
+      .form-container input[type="tel"] {
+        width: 100%;
+        padding: 15px;
+        margin: 5px 0 22px 0;
+        border: none;
+        background: #f1f1f1;
+        color: #3a3a38;
+        border-radius: 8px;
+      }
+
+      .form-container input[type="text"]:focus,
+      .form-container input[type="password"]:focus,
+      .form-container input[type="tel"]:focus {
+        background-color: #ddd;
+        outline: none;
+        color: #3a3a38;
+      }
+
+      .form-container .btn {
+        background-color: #04aa6d;
+        color: white;
+        padding: 16px 20px;
+        border: none;
+        cursor: pointer;
+        width: 100%;
+        margin-bottom: 10px;
+        opacity: 0.8;
+        border-radius: 8px;
+      }
+
+      .form-container .cancel {
+        background-color: #90bcb4;
+      }
+
+      .form-container .btn:hover,
+      .open-button:hover {
+        opacity: 1;
+      }
+
+      table,
+      td,
+      th {
+        color: #3a3a38;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- TOP TEXT ACROSS THE PAGE (CENTERED + EVENLY SPACED) -->
+    <div class="top-links">
+      <nav aria-label="Top navigation">
+        <ul>
+          <li><a href="#">Home</a></li>
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">MMR McKinstry Metal Recycling</a></li>
+          <li><a href="#">Skip Hire</a></li>
+          <li><a href="#">Waste Services</a></li>
+          <li><a href="#">Biomass</a></li>
+          <li><a href="#">Contact Us</a></li>
+          <li><a href="#">Certification</a></li>
+          <li><a href="#">Waste Licences</a></li>
+        </ul>
+      </nav>
+    </div>
+
+    <!-- Hover trigger zone (mouse near right edge) - 8x8 -->
+    <div class="chat-hover-zone" aria-hidden="true"></div>
+
+    <!-- Chat drawer wrapper (RIGHT, HALF WAY DOWN, SLIDES OUT ON HOVER) - 8x8 -->
+    <div class="chat-drawer" aria-label="Chat drawer">
+      <div class="chat-drawer-tab" aria-hidden="true"></div>
+
+      <div
+        id="__8x8-chat-button-container-script_1493918123696e2dfbe10540.79726509"
+      ></div>
+    </div>
+
+    <!-- Hover trigger zone (mouse near right edge) - Cognigy (underneath) -->
+    <div class="chat-hover-zone-cognigy" aria-hidden="true"></div>
+
+    <!-- Chat drawer wrapper - Cognigy (underneath) -->
+    <div class="chat-drawer-cognigy" aria-label="Cognigy chat drawer">
+      <div class="chat-drawer-tab-cognigy" aria-hidden="true"></div>
+
+      <!-- Cognigy will mount here -->
+      <div id="cognigy-webchat-mount"></div>
+    </div>
+
+    <!-- Single Image + middle overlay -->
+    <div id="welcome-section2">
+      <div class="image-wrap">
+        <img src="pic11.PNG" class="full-width-image" alt="Main Image" />
+        <img src="picMiddle.png" class="middle-overlay" alt="Middle Overlay" />
+      </div>
+    </div>
+
+    <!-- 8x8 Chat loader -->
+    <script type="text/javascript">
+      (function (c, f, ef) {
+        var typeofC = Object.prototype.toString.call(c);
+        var props = (typeofC === "[object Object]" && c) || {};
+        var cb = f || (typeofC === "[object Function]" && c);
+        var config = {
+          scriptUuid: "script_1493918123696e2dfbe10540.79726509",
+          tenant: "dWtzYWxlc2VuYWJsZW1lbnQ0NzgwMQ",
+          channelName: "McKinstryChat",
+          channelUuid: "QR-zynnnR3i3YVPYqOrmkA",
+          domain: "https://vcc-eu5.8x8.com",
+          buttonContainerId:
+            "__8x8-chat-button-container-script_1493918123696e2dfbe10540.79726509",
+          align: "right",
+        };
+
+        var url = new URL(
+          "https://cloud8-cc-geo.8x8.com/vcc-chat-channels/public/webchat/discovery"
+        );
+        var params = {
+          domain: config.domain,
+          tenant: config.tenant,
+          channelUuid: config.channelUuid,
+        };
+        url.search = new URLSearchParams(params).toString();
+        fetch(url)
+          .then((response) => response.json())
+          .then((data) => (config.domain = !data.domain ? config.domain : data.domain))
+          .catch((error) =>
+            console.warn(
+              "Failed to retrieve override domain, will continue using ",
+              config.domain,
+              error
+            )
+          )
+          .finally(() => loadChat());
+
+        function loadChat() {
+          var se = document.createElement("script");
+          se.type = "text/javascript";
+          se.async = true;
+          se.src = props.loaderURL || config.domain + "/CHAT/common/js/chatv3.js";
+          Object.keys(config).forEach(function (k) {
+            se.dataset[k] = config[k];
+          });
+          Object.keys(props).forEach(function (k) {
+            se.dataset[k] = props[k];
+          });
+          function handleInitEvent(e) {
+            var initFn = e.detail.init;
+            initFn(config, cb);
+            se.removeEventListener("init", handleInitEvent);
+          }
+          function handleErrorEvent(e) {
+            ef && ef(e);
+            se.removeEventListener("customerror", handleErrorEvent);
+          }
+          se.addEventListener("init", handleInitEvent);
+          se.addEventListener("customerror", handleErrorEvent);
+          var os = document.getElementsByTagName("script")[0];
+          os.parentNode.insertBefore(se, os);
+        }
+      })();
+    </script>
+
+    <!-- Cognigy Webchat loader + init -->
+    <script src="https://github.com/Cognigy/Webchat/releases/latest/download/webchat.js"></script>
+    <script>
+      initWebchat(
+        "https://endpoint-trial.cognigy.ai/da2d479125635d9fbe3dbd0d21c4a3dcf7b91d59344800b9b1dc3fe29d8bb533",
+        {
+          // This ensures it mounts inside your slide-out drawer
+          target: "#cognigy-webchat-mount",
+        }
+      );
+    </script>
+
+    <!-- cobrowse debug check -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        setTimeout(function () {
+          if (!window.coBrowsingInstance) {
+            console.error("coBrowsingInstance not initialized");
+          }
+        }, 2000);
+      });
+    </script>
+
+    <!-- Callback popup -->
+    <button class="open-button" onclick="openForm()">Request a Callback</button>
+
+    <div class="form-popup" id="myForm">
+      <form
+        name="WebCallBack"
+        action="https://vcc-eu5.8x8.com/SC/webcallback.php"
+        method="get"
+        oninput="extTransactionData.value = '[Name|' + fname.value +' '+ lname.value + '][Location|' + location.value + '][Reason|' + reason.value +']'"
+      >
+        <input type="hidden" name="extTransactionData" />
+        <input type="hidden" name="tenant" value="uksalesenablement47801" />
+        <input
+          type="hidden"
+          name="token"
+          value="6417c61d2e76696a46841e53a00368a6441978972cdf471ac2d39307e14df09e"
+        />
+        <input type="hidden" name="channel_number" value="442039845210" />
+        <input type="hidden" name="callback_type" value="1" />
+        <input type="hidden" name="queue_id" value="107" />
+        <input type="hidden" name="expiration" value="1200" /><br />
+
+        <table style="background-color: #ffffff;">
+          <tr>
+            <td>First name:</td>
+            <td><input type="text" name="fname" /></td>
+          </tr>
+          <tr>
+            <td>Last name:</td>
+            <td><input type="text" name="lname" /></td>
+          </tr>
+          <tr>
+            <td>Location:</td>
+            <td><input type="text" name="location" /></td>
+          </tr>
+          <tr>
+            <td>Reason:</td>
+            <td>
+              <select name="reason" style="border-radius: 8px; padding: 5px;">
+                <option value="Book Travel">Book Travel</option>
+                <option value="Change Plans">Change Plans</option>
+                <option value="Cancel Travel" selected>Cancel Travel</option>
+                <option value="Other">Other</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>Tel Number:</td>
+            <td>
+              <input type="tel" name="phone" class="anotherClass maskContent" />
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" style="text-align: center;">
+              <input type="submit" value="Call Me" style="border-radius: 8px;" />
+            </td>
+          </tr>
+        </table>
+      </form>
+
+      <form action="/action_page.php" class="form-container">
+        <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+      </form>
+    </div>
+
+    <script>
+      function openForm() {
+        document.getElementById("myForm").style.display = "block";
+      }
+
+      function closeForm() {
+        document.getElementById("myForm").style.display = "none";
+      }
+    </script>
+  </body>
+</html>
